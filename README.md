@@ -159,6 +159,18 @@ Options:
 	--preprocess-method=STR
 		The preprocessing method used on the data, choose from {PCA, LSI}. [Default: PCA]
 
+	--umap.metric=STR
+		The distance metric to be used when calculating UMAP, choose from {euclidean, cosine, manhattan, hamming}. [Default: cosine]
+
+	--umap.min-dist=FLOAT
+		The minimum distance to be passed to the UMAP function. [Default: 0.1]
+
+	--umap.n-neighbors=INT
+		The number of neighbors to use during kNN graph construction. [Default: 15]
+
+	--umap.nn-method=STR
+		The nearest neighbor method to be used by UMAP, choose from: {fnn, annoy}. [Default: annoy]
+
 	--cores=CORES
 		The number of cores to be used for dimensionality reduction. [Default: 1]
 

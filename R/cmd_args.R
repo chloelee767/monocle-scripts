@@ -266,6 +266,54 @@ function_options <- function(func_names) {
                 )
             ),
             make_option(
+                c('--umap.metric'),
+                action = 'callback',
+                type = 'character',
+                default = 'cosine',
+                metavar = 'STR',
+                callback = check_choose_from(choices = c('euclidean', 'cosine', 'manhattan', 'hamming', 'categorical')),
+                help = paste(
+                'The distance metric to be used when calculating UMAP,',
+                'choose from {euclidean, cosine, manhattan, hamming}.',
+                '[Default: %default]'
+                )
+            ),
+            make_option(
+                c('--umap.min-dist'),
+                action = 'store',
+                type = 'numeric',
+                default = 0.1,
+                metavar = 'FLOAT',
+                help = paste(
+                'The minimum distance to be passed to the UMAP function.',
+                '[Default: %default]'
+                )
+            ),
+            make_option(
+                c('--umap.n-neighbors'),
+                action = 'store',
+                type = 'integer',
+                default = 15,
+                metavar = 'INT',
+                help = paste(
+                'The number of neighbors to use during kNN graph construction.',
+                '[Default: %default]'
+                )
+            ),
+            make_option(
+                c('--umap.nn-method'),
+                action = 'callback',
+                type = 'character',
+                default = 'annoy',
+                metavar = 'STR',
+                callback = check_choose_from(choices = c('fnn', 'annoy')),
+                help = paste(
+                'The nearest neighbor method to be used by UMAP,',
+                'choose from: {fnn, annoy}.',
+                '[Default: %default]'
+                )
+            ),
+            make_option(
                 c('--cores'),
                 action = 'store',
                 type = 'integer',
