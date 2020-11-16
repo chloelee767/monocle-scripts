@@ -41,8 +41,11 @@ monocle_write_plot <- function(p, output_plot, output_plot_format = 'png') {
 #' Turning the monocle3 tutorial (08.08.19) function into something more general,
 #' matching what was originally here
 get_root_principal_nodes <- function(cds, cell_phenotype, root_type, reduction_method) {
-    cell_ids <- which(pData(cds)[, cell_phenotype] == root_type)
+    if (is.na(cell_phenotype) && is.na(root_type)) {
+      return(get_root_principal_nodes_by_partition(cds, reduction_method))
+    }
 
+    cell_ids <- which(pData(cds)[, cell_phenotype] == root_type)
     # `pr_graph_cell_proj_closest_vertex` is a matrix with a single column that
     # stores for each cell, the ID of the principal graph node it's closest to
     closest_vertex <-
@@ -50,5 +53,19 @@ get_root_principal_nodes <- function(cds, cell_phenotype, root_type, reduction_m
     closest_vertex <- as.matrix(closest_vertex[colnames(cds), ])
     root_pr_nodes <- igraph::V(principal_graph(cds)[[reduction_method]])$name[as.numeric(names
       (which.max(table(closest_vertex[cell_ids,]))))]
+    root_pr_nodes
+}
+
+get_root_principal_nodes_by_partition <- function(cds, reduction_method) {
+    root_pr_nodes <- character()
+    for (p in levels(partitions(cds))) {
+        cell_ids <- which(partitions(cds) == p)
+        closest_vertex <- cds@principal_graph_aux[[reduction_method]]$pr_graph_cell_proj_closest_vertex
+        closest_vertex <- as.matrix(closest_vertex[colnames(cds), ])
+        curr_node <- igraph::V(principal_graph(cds)[[reduction_method]])$name[as.numeric(names(which.max(table(closest_vertex[cell_ids,]))))]
+        #cat(curr_node, '\n')
+        root_pr_nodes <- append(root_pr_nodes, curr_node)
+    }
+
     root_pr_nodes
 }

@@ -302,10 +302,17 @@ monocle_orderCells <- function(
 
     if (is.null(orderCells_options$root_pr_nodes) &&
         is.null(orderCells_options$root_cells)) {
-        orderCells_options$root_pr_nodes <- do.call(
-            'get_root_principal_nodes',
-            c(list(cds), get_root_principal_nodes_options)
-        )
+    # HACK
+      if (is.null(get_root_principal_nodes_options$cell_phenotype) &&
+          is.null(get_root_principal_nodes_options$root_type)) {
+        get_root_principal_nodes_options$cell_phenotype <- NA
+        get_root_principal_nodes_options$root_type <- NA
+      }
+      orderCells_options$root_pr_nodes <- do.call(
+          'get_root_principal_nodes',
+          c(list(cds), get_root_principal_nodes_options)
+      )
+
     }
 
     cds <- do.call(
