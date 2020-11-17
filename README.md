@@ -1,6 +1,12 @@
 # monocle-scripts
 Command line scripts wrapping functions in [Monocle3](https://cole-trapnell-lab.github.io/monocle3/)
 
+### Differences from upstream
+
+- Adds support for UMAP paramters for `reduceDim`
+- Improves automatic psuedotime assignment for `orderCells`. Now, no parameters (except for the input and ouput files) need to be passed to `orderCells` -- the first principal node for each partition will be identified programmatically, by tweaking the code used in the [Monocle 3 docs](https://cole-trapnell-lab.github.io/monocle3/docs/trajectories/#order-cells).
+- Note: I will open an issue/pull request to the upstream repo once I am less busy.
+
 ## 1. Installation
 
 ### 1.1. Install Monocle3
